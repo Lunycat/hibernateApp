@@ -5,21 +5,21 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "people")
-public class Person {
+@Table(name = "items")
+public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,14 +29,12 @@ public class Person {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "age")
-    private int age;
-
-    @OneToMany(mappedBy = "owner")
-    private List<Item> items;
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Person owner;
 
     @Override
     public String toString() {
-        return String.format("id = %s\nname=%s\nage = %s\n", id, name, age);
+        return String.format("id = %s\nname = %s\nownwer = %s\n", id, name, owner.getName());
     }
 }

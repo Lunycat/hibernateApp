@@ -1,4 +1,4 @@
-package org.example;
+package org.example.apps;
 
 import org.example.model.Person;
 import org.hibernate.Session;
