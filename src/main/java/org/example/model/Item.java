@@ -16,7 +16,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "items")
 public class Item {
@@ -32,6 +31,10 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
+
+    public Item(String name) {
+        this.name = name;
+    }
 
     @Override
     public String toString() {

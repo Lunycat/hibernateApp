@@ -5,7 +5,6 @@ import org.example.model.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import java.util.List;
 
 public class Relations {
 
@@ -19,38 +18,16 @@ public class Relations {
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
 
-            Person person = session.get(Person.class, 2);
-            List<Item> items = person.getItems();
+            Person person = new Person("Великий чел", 50);
+            Item item1 = new Item("item1");
+            Item item2 = new Item("item2");
+            Item item3 = new Item("item3");
 
-            for (Item item : items) {
-                System.out.println(item);
-            }
+            person.addItem(item1);
+            person.addItem(item2);
+            person.addItem(item3);
 
-            session.getTransaction().commit();
-        }
-
-        try (Session session = sessionFactory.getCurrentSession()) {
-            session.beginTransaction();
-
-            Item item = session.get(Item.class, 2);
-            Person person = item.getOwner();
-
-            System.out.println(person);
-
-            session.getTransaction().commit();
-        }
-
-        try (Session session = sessionFactory.getCurrentSession()) {
-            session.beginTransaction();
-
-            Person person = session.get(Person.class, 4);
-            Item item1 = session.get(Item.class, 1);
-            Item item2 = session.get(Item.class, 2);
-
-            item1.setOwner(person);
-            item2.setOwner(person);
-
-            person.getItems().addAll(List.of(item1, item2));
+            session.persist(person);
 
             session.getTransaction().commit();
         }

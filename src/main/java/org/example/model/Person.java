@@ -11,12 +11,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "people")
 public class Person {
@@ -33,7 +36,21 @@ public class Person {
     private int age;
 
     @OneToMany(mappedBy = "owner")
+    @Cascade({CascadeType.PERSIST})
     private List<Item> items;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void addItem(Item item) {
+        if (items == null) {
+            items = new ArrayList<>();
+        }
+        items.add(item);
+        item.setOwner(this);
+    }
 
     @Override
     public String toString() {
