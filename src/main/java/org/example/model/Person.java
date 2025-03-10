@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,6 +40,10 @@ public class Person {
     @Cascade({CascadeType.PERSIST})
     private List<Item> items;
 
+    @OneToOne(mappedBy = "person")
+    @Cascade({CascadeType.PERSIST})
+    private Passport passport;
+
     public Person(String name, int age) {
         this.name = name;
         this.age = age;
@@ -50,6 +55,11 @@ public class Person {
         }
         items.add(item);
         item.setOwner(this);
+    }
+
+    public void addPassport(Passport passport) {
+        this.passport = passport;
+        passport.setPerson(this);
     }
 
     @Override
